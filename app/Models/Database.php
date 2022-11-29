@@ -2,15 +2,11 @@
 
 namespace App\Models;
 
-class User extends Database
+class Database extends \R
 {
-    const IS_USER = 'user';
-    const IS_ADMIN = 'admin';
-
-    public static string $table = 'users';
-
     private static $instance;
     private static $dispense;
+    public static string $table;
 
     public static function query()
     {
@@ -29,16 +25,5 @@ class User extends Database
     private function __construct()
     {
         self::$dispense = self::dispense(self::$table);
-    }
-
-    public function create(array $data)
-    {
-        $user = self::getDispense();
-
-        foreach ($data as $key => $value) {
-            $user->$key = $value;
-        }
-
-        self::store(self::getDispense());
     }
 }

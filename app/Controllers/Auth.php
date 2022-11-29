@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\User;
 use App\Services\Router;
 use App\Services\Storage;
 
@@ -23,14 +24,12 @@ class Auth
             die();
         }
 
-        $user = \R::dispense('users');
-
-        $user->email = $email;
-        $user->username = $username;
-        $user->password = password_hash($password, PASSWORD_DEFAULT);
-        $user->image_path = $image_path;
-
-        \R::store($user);
+        User::query()->create([
+            'email' => $email,
+            'password' => password_hash($password, PASSWORD_DEFAULT),
+            'username' => $username,
+            'image_path' => $image_path
+        ]);
 
         Router::redirect('/login');
     }
